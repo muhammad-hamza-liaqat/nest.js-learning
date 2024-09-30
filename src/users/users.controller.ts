@@ -63,4 +63,13 @@ export class UsersController {
       .status(HttpStatus.FOUND)
       .json({ message: `${params.id} from routes!` });
   }
+  @Get('images')
+  getImages(@Res() res: Response, @Query() query: any) {
+    // console.log('name', query.name);
+    // console.log('age', query.age);
+    // console.log('gender', query.gender);
+    return res
+      .status(HttpStatus.OK)
+      .json({ name: query.name, age: query.age, gender: query.gender });
+  }
 }
