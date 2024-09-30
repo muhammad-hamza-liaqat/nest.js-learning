@@ -55,4 +55,12 @@ export class UsersController {
       .status(HttpStatus.CREATED)
       .json({ message: 'user additional information added successfully!' });
   }
+
+  @Get('videos/:id')
+  getVideo(@Param() params: any, @Res() res: Response) {
+    console.log(`${params.id} from route extracted!`);
+    return res
+      .status(HttpStatus.FOUND)
+      .json({ message: `${params.id} from routes!` });
+  }
 }
