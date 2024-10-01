@@ -8,10 +8,11 @@ import {
   Param,
   Post,
   Put,
+  Req,
   Res,
 } from '@nestjs/common'
 import { signUpDTO } from './dto/sign-up.dto'
-import { Response } from 'express'
+import { Request, Response } from 'express'
 import { deleteUserDTO } from './dto/delete-user.dto'
 import { sendResponse } from 'src/helpers/response.helper'
 import { hashPassword } from 'src/helpers/bcryptjs.helper'
@@ -78,4 +79,13 @@ export class UsersController {
     )
     return response
   }
+
+
+  @Get("get-ip")
+  getUserIP(@Req() req: Request): any{
+    let response = sendResponse(HttpStatus.OK, "Ip created", req.ip)
+    console.log("req", req.ip)
+    return response
+  }
+
 }
