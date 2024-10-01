@@ -14,7 +14,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       statusCode: status,
       message: exceptionResponse['message'] || exception.message,
       timestamp: new Date().toISOString(),
-      endPoint: request.url,
+      URL: request.url,
     });
   }
 }
