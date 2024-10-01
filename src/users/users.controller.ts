@@ -14,6 +14,7 @@ import { signUpDTO } from './dto/sign-up.dto'
 import { Response } from 'express'
 import { deleteUserDTO } from './dto/delete-user.dto'
 import { sendResponse } from 'src/helpers/response.helper'
+import { hashPassword } from 'src/helpers/bcryptjs.helper'
 
 const users = []
 
@@ -21,11 +22,12 @@ const users = []
 export class UsersController {
   @Post('sign-up')
   async createUser (@Body() signUpDto: signUpDTO) {
-    const newUser = users.push(signUpDto)
+    const hashedPassword =  await hashPassword(signUpDto?.password)
+    const newUser = users.push({... signUpDto, password: hashedPassword})
     let response = sendResponse(
       HttpStatus.CREATED,
       'user added successfully!',
-      users,
+      {... signUpDto, password: hashedPassword}
     )
     return response
   }
