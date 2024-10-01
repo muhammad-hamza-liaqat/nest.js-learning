@@ -1,18 +1,38 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger'
+import {
+  IsEmail,
+  IsNotEmpty,
+  MinLength,
+  Matches,
+} from 'class-validator'
 
 export class CreateAuthDto {
   @ApiProperty()
-  userName: string;
+  @IsNotEmpty()
+  @Matches(/^[a-zA-Z0-9]+$/, {
+    message: 'Username must not contain special characters',
+  })
+  userName: string
 
   @ApiProperty()
-  email: string;
+  @IsNotEmpty()
+  @IsEmail()
+  email: string
 
   @ApiProperty()
-  password: string;
+  password: string
 
   @ApiProperty()
-  firstName: string;
+  @MinLength(4)
+  @Matches(/^[a-zA-Z0-9]+$/, {
+    message: 'Username must not contain special characters',
+  })
+  firstName: string
 
   @ApiProperty()
-  lastName: string;
+  @MinLength(4)
+  @Matches(/^[a-zA-Z0-9]+$/, {
+    message: 'Username must not contain special characters',
+  })
+  lastName: string
 }
