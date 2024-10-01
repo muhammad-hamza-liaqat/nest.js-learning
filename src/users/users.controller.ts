@@ -58,7 +58,7 @@ export class UsersController {
     return response
   }
 
-  @Put()
+  @Put("updateUser/:id")
   async updateUser (
     @Param('id') userId: any,
     @Body() signUpDto: signUpDTO,
