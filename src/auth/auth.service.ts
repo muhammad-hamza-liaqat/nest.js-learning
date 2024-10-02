@@ -12,12 +12,14 @@ import { Repository } from 'typeorm';
 import { compareHashPassword, hashPassword } from 'src/helpers/bcrypt.helper';
 import { sendResponse } from 'src/helpers/response.helper';
 import { loginAuthDto } from './dto/login-auth.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(Auth)
     private readonly userModel: Repository<Auth>,
+    private readonly jwt: JwtService,
   ) {}
   async signInUser(createAuthDto: CreateAuthDto) {
     const { userName, email, password, firstName, lastName } = createAuthDto;
@@ -63,9 +65,32 @@ export class AuthService {
     if (!comparePassword) {
       throw new BadRequestException('password is incorrect!');
     }
+
+    const tokens = await this.getTokens(userToFind.id);
+    // console.log("tokens", tokens)
     let response = sendResponse(HttpStatus.OK, 'user login successfully', {
       loginUser: userToFind.userName,
+      accessToken: tokens.accessToken,
+      refreshToken: tokens.refreshToken,
     });
     return response;
+  }
+
+  async getTokens(id: any) {
+    const payload = { sub: id };
+
+    const accessToken = this.jwt.sign(payload, {
+      secret: process.env.JWT_ACCESS_SECRET,
+      expiresIn: process.env.JWT_EXPIRY,
+    });
+
+    const refreshToken = this.jwt.sign(payload, {
+      secret: process.env.JWT_REFRESH_SECRET,
+      expiresIn: process.env.REFRESH_EXPIRY,
+    });
+    return {
+      accessToken,
+      refreshToken,
+    };
   }
 }
