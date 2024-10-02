@@ -4,10 +4,17 @@ import { AuthController } from './auth.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Auth } from './entities/auth.entity';
 import { ConfigModule } from '@nestjs/config';
+import { JwtModule } from '@nestjs/jwt';
+import { AccessTokenStrategy } from './jwt/jwt.strategy';
+import { RefreshTokenStrategy } from './jwt/refresh-jwt.strategy';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Auth]), ConfigModule.forRoot({ isGlobal: true})],
+  imports: [
+    TypeOrmModule.forFeature([Auth]),
+    ConfigModule.forRoot({ isGlobal: true }),
+    JwtModule.register({})
+  ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
 })
 export class AuthModule {}
