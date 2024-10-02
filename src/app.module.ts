@@ -9,11 +9,11 @@ import { Auth } from './auth/entities/auth.entity';
   imports: [AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: process.env.DB_HOST,
+      host: "localhost",
       port: 5432,
-      username: process.env.DB_USER_NAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      username: "muhammad_hamza",
+      password: "lahore54000",
+      database: "nestjs",
       entities: [Auth],
       // entities: [__dirname + '/../**/*.entity{.ts,.js}'],  // Glob pattern to load all entity files
       synchronize: true,

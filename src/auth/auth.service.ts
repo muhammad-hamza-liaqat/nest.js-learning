@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  HttpCode,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+import { Auth } from './entities/auth.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { hashPassword } from 'src/helpers/bcrypt.helper';
+import { sendResponse } from 'src/helpers/response.helper';
 
 @Injectable()
 export class AuthService {
-  create(createAuthDto: CreateAuthDto) {
-    return 'This action adds a new auth';
-  }
+  constructor(
+    @InjectRepository(Auth)
+    private readonly userModel: Repository<Auth>,
+  ) {}
 
-  findAll() {
-    return `This action returns all auth`;
-  }
+  async signInUser(createAuthDto: CreateAuthDto) {
+    const { userName, email, password, firstName, lastName } = createAuthDto;
+    const userExist = await this.userModel.find({ where: { email } });
+    if (userExist) {
+      throw new ConflictException('user already exists in the system!');
+    }
+    const hashedPassword = await hashPassword(password);
+    console.log(hashedPassword, 'hashed password generated!');
 
-  findOne(id: number) {
-    return `This action returns a #${id} auth`;
-  }
+    const newUser = await this.userModel.create({
+      userName,
+      email,
+      firstName,
+      lastName,
+      password: hashedPassword,
+    });
 
-  update(id: number, updateAuthDto: UpdateAuthDto) {
-    return `This action updates a #${id} auth`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} auth`;
+    await this.userModel.save(newUser);
+    let response = sendResponse(
+      HttpStatus.CREATED,
+      'user created successfully',
+      { name: newUser.userName, password: newUser.password },
+    );
+    return response;
   }
 }
