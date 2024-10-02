@@ -7,6 +7,7 @@ import { ConfigModule } from '@nestjs/config';
 import { typeOrmConfig } from './config/db.config';
 import { UploadModule } from './modules/upload/upload.module';
 
+
 // console.log(`DB_HOST: ${process.env.DB_HOST}`);
 // console.log(`DB_USER_NAME: ${process.env.DB_USER_NAME}`);
 // console.log(`DB_PASSWORD: ${process.env.DB_PASSWORD}`);
