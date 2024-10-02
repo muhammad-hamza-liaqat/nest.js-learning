@@ -12,10 +12,7 @@ import { RefreshTokenStrategy } from './jwt/refresh-jwt.strategy';
   imports: [
     TypeOrmModule.forFeature([Auth]),
     ConfigModule.forRoot({ isGlobal: true }),
-    JwtModule.register({
-      secret: process.env.JWT_ACCESS_SECRET,
-      signOptions: { expiresIn: process.env.JWT_EXPIRY}
-    })
+    JwtModule.register({})
   ],
   controllers: [AuthController],
   providers: [AuthService, AccessTokenStrategy, RefreshTokenStrategy],
