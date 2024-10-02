@@ -1,7 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose'; 
 
 @Schema({ timestamps: true })
-export class AuthSchema {
+export class Auth {
   @Prop()
   userName: string;
 
@@ -18,7 +19,8 @@ export class AuthSchema {
   lastName: string;
 }
 
-// making schema
-export const authSchema = SchemaFactory.createForClass(AuthSchema);
-// making type "Document of authSchema"
-export type authDocument = AuthSchema & Document;
+// Creating schema
+export const authSchema = SchemaFactory.createForClass(Auth);
+
+// Creating type for "Document of Auth"
+export type authDocument = Auth & Document;

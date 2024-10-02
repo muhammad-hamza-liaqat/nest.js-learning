@@ -15,11 +15,12 @@ export class CreateAuthDto {
   userName: string
 
   @ApiProperty()
-  @IsNotEmpty()
+  // @IsNotEmpty()
   @IsEmail()
   email: string
 
   @ApiProperty()
+  @IsNotEmpty()
   password: string
 
   @ApiProperty()
