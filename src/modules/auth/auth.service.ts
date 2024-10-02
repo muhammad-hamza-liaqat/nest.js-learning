@@ -9,8 +9,8 @@ import { CreateAuthDto } from './dto/create-auth.dto';
 import { Auth } from './entities/auth.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { compareHashPassword, hashPassword } from 'src/helpers/bcrypt.helper';
-import { sendResponse } from 'src/helpers/response.helper';
+import { compareHashPassword, hashPassword } from 'src/modules/helpers/bcrypt.helper';
+import { sendResponse } from 'src/modules/helpers/response.helper';
 import { loginAuthDto } from './dto/login-auth.dto';
 import { JwtService } from '@nestjs/jwt';
 
