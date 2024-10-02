@@ -16,12 +16,14 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
-  
-  const port = process.env.PORT || 3000; // Fallback to port 3000
+
+  const port = process.env.PORT;
   await app.listen(port);
 
   console.log(`Server is running on http://localhost:${port}/`);
-  console.log(`Swagger API documentation available at: http://localhost:${port}/api`);
+  console.log(
+    `Swagger API documentation available at: http://localhost:${port}/api`,
+  );
 }
 
 bootstrap().catch((error) => {
